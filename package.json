@@ -4,7 +4,15 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "dev": "nodemon --exec tsx src/index.ts --ext .ts --watch src",
+        "test": "tsc --noEmit",
+        "build": "tsc",
+        "start": "node ."
+    },
+    "devDependencies": {
+        "@types/node": "^20.10.3",
+        "typescript": "5.3.2",
+        "tsx": "^4.6.2"
     },
     "keywords": [],
     "author": "",
