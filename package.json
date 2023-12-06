@@ -1,20 +1,30 @@
 {
     "name": "expert-octo-computing-machine",
     "version": "0.0.4",
-    "description": "",
+    "description": "test Packagae",
     "main": "out/index.js",
+    "author": "Me",
+    "license": "MIT",
     "scripts": {
         "dev": "nodemon --exec tsx src/index.ts --ext .ts --watch src",
         "test": "tsc --noEmit",
         "build": "tsc",
         "start": "node ."
     },
-    "devDependencies": {
-        "@types/node": "^20.10.3",
-        "typescript": "5.3.2",
-        "tsx": "^4.6.2"
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/softwarexplus/expert-octo-computing-machine.git"
     },
-    "keywords": [],
-    "author": "",
-    "license": "MIT"
+    "bugs": {
+        "url": "https://github.com/softwarexplus/expert-octo-computing-machine/issues",
+        "email": "SoftwareXPlus@gmail.com"
+    },
+    "funding": {
+        "type": "patreon",
+        "url": "https://www.patreon.com/SoftwareXPlus"
+    },
+    "devDependencies": {
+        "@types/node": "^20.8.3",
+        "typescript": "^5.2.2"
+    }
 }
