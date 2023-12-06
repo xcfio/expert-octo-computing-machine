@@ -19,7 +19,7 @@ jobs:
 
             # Install Dependencies
             - name: Install dependencies
-              run: pnpm install
+              run: pnpm install typescript
 
             # Run Test
             - name: Run test
