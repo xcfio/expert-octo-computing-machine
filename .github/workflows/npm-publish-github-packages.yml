@@ -47,7 +47,7 @@ jobs:
 
             # Publish
             - name: Publish to NPM
-              run: pnpm publish --no-git-checks
+              run: pnpm publish --access public --tag dev --no-git-checks
               env:
                   NODE_AUTH_TOKEN: ${{secrets.NODETOKEN}}
 
@@ -73,6 +73,6 @@ jobs:
 
             # Publish
             - name: Publish to GPR
-              run: pnpm publish --no-git-checks
+              run: pnpm publish --access public --tag dev --no-git-checks
               env:
-                  NODE_AUTH_TOKEN: ${{secrets.NODETOKEN}}
+                  NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
