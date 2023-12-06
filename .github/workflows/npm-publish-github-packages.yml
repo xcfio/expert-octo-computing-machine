@@ -12,13 +12,14 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             # Setup
+            - uses: actions/checkout@v3
             - uses: pnpm/action-setup@v2
               with:
                   version: 8
 
             # Install Dependencies
             - name: Install dependencies
-              run: pnpm install typescript
+              run: pnpm install
 
             # Run Test
             - name: Run test
@@ -30,6 +31,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             # Setup Node
+            - uses: actions/checkout@v3
             - uses: actions/setup-node@v3
               with:
                   node-version: 20
@@ -55,6 +57,7 @@ jobs:
             packages: write
         steps:
             # Setup Node
+            - uses: actions/checkout@v3
             - uses: actions/setup-node@v3
               with:
                   node-version: 20

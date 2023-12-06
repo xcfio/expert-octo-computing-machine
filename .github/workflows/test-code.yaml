@@ -13,13 +13,14 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             # Setup
+            - uses: actions/checkout@v3
             - uses: pnpm/action-setup@v2
               with:
                   version: 8
 
             # Install Dependencies
             - name: Install dependencies
-              run: pnpm install typescript
+              run: pnpm install
 
             # Run Test
             - name: Run test
