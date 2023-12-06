@@ -22,7 +22,7 @@ jobs:
               run: pnpm install
 
             # Run Test
-            - name: Run test
+            - name: Build
               run: pnpm run build
 
     # Publish to NPM
