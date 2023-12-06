@@ -11,24 +11,42 @@ jobs:
     build:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v3
-            - uses: actions/setup-node@v3
+            # Setup
+            - uses: pnpm/action-setup@v2
               with:
-                  node-version: 20
+                  version: 8
 
+            # Install Dependencies
+            - name: Install dependencies
+              run: pnpm install
+
+            # Run Test
+            - name: Run test
+              run: pnpm run build
+
+    # Publish to NPM
     publish-npm:
         needs: build
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v3
+            # Setup Node
             - uses: actions/setup-node@v3
               with:
                   node-version: 20
-                  registry-url: https://registry.npmjs.org/
-            - run: npm publish
+                  registry-url: https://npm.pkg.github.com/
+
+            # Setup PNPM
+            - uses: pnpm/action-setup@v2
+              with:
+                  version: 8
+
+            # Publish
+            - name: Publish to NPM
+              run: pnpm publish
               env:
                   NODE_AUTH_TOKEN: ${{secrets.NODETOKEN}}
 
+    # Publish to GPR
     publish-gpr:
         needs: build
         runs-on: ubuntu-latest
@@ -36,11 +54,19 @@ jobs:
             contents: read
             packages: write
         steps:
-            - uses: actions/checkout@v3
+            # Setup Node
             - uses: actions/setup-node@v3
               with:
                   node-version: 20
                   registry-url: https://npm.pkg.github.com/
-            - run: npm publish
+
+            # Setup PNPM
+            - uses: pnpm/action-setup@v2
+              with:
+                  version: 8
+
+            # Publish
+            - name: Publish to GPR
+              run: pnpm publish
               env:
-                  NODE_AUTH_TOKEN: ${{ secrets.NODETOKEN }}
+                  NODE_AUTH_TOKEN: ${{secrets.NODETOKEN}}
