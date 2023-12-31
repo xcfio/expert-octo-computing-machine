@@ -1,5 +1,14 @@
+# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
+# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
+
 name: Node.js Package
 
+# on:
+#     release:
+#         types: [created]
+#     push:
+#         branches:
+#             - main
 on:
     push:
         branches:
@@ -9,14 +18,92 @@ on:
             - main
 
 jobs:
-    publish-npm:
+    build:
         runs-on: ubuntu-latest
         steps:
+            # Setup
+            - uses: actions/checkout@v3
+            - uses: pnpm/action-setup@v2
+              with:
+                  version: 8
+
+            # Install Dependencies
+            - name: Install dependencies
+              run: pnpm install
+
+            # Run Test
+            - name: Build
+              run: pnpm run build
+
+    # Publish to NPM
+    publish-npm:
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+            # Setup Node
             - uses: actions/checkout@v3
             - uses: actions/setup-node@v3
               with:
-                  node-version: 16
-                  registry-url: https://registry.npmjs.org/
-            - run: npm publish
+                  node-version: 20
+
+            # Setup PNPM
+            - uses: pnpm/action-setup@v2
+              with:
+                  version: 8
+
+            # Publish
+            - name: Publish to NPM
+              run: pnpm publish --access public --tag dev --no-git-checks
               env:
                   NODE_AUTH_TOKEN: ${{secrets.NODETOKEN}}
+
+    # # Publish to GPR
+    # publish-gpr:
+    #     needs: build
+    #     runs-on: ubuntu-latest
+    #     permissions:
+    #         contents: read
+    #         packages: write
+    #     steps:
+    #         # Setup Node
+    #         - uses: actions/checkout@v3
+    #         - uses: actions/setup-node@v3
+    #           with:
+    #               node-version: 20
+    #               registry-url: https://npm.pkg.github.com/
+
+    #         # Setup PNPM
+    #         - uses: pnpm/action-setup@v2
+    #           with:
+    #               version: 8
+
+    #         # Publish
+    #         - name: Publish to GPR
+    #           run: pnpm publish --access public --tag dev --no-git-checks
+    #           env:
+    #               NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
+# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
+
+# name: Node.js Package
+
+# on:
+#     push:
+#         branches:
+#             - main
+#     pull_request:
+#         branches:
+#             - main
+
+# jobs:
+#     publish-npm:
+#         runs-on: ubuntu-latest
+#         steps:
+#             - uses: actions/checkout@v3
+#             - uses: actions/setup-node@v3
+#               with:
+#                   node-version: 16
+#                   registry-url: https://registry.npmjs.org/
+#             - run: npm publish
+#               env:
+#                   NODE_AUTH_TOKEN: ${{secrets.NODETOKEN}}
