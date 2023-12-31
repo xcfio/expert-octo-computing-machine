@@ -1,6 +1,6 @@
 {
     "name": "expert-octo-computing-machine",
-    "version": "0.0.8",
+    "version": "0.0.9",
     "description": "test Packagae",
     "main": "out/index.js",
     "author": "Me",
