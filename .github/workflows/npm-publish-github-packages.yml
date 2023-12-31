@@ -41,15 +41,15 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             # Setup Node
-            # - uses: actions/checkout@v3
-            # - uses: actions/setup-node@v3
-            #   with:
-            #       node-version: 20
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 20
 
-            # # Setup PNPM
-            # - uses: pnpm/action-setup@v2
-            #   with:
-            #       version: 8
+            # Setup PNPM
+            - uses: pnpm/action-setup@v2
+              with:
+                  version: 8
 
             # Publish
             - name: Publish to NPM
