@@ -9,54 +9,53 @@ name: Node.js Package
 #     push:
 #         branches:
 #             - main
-# on:
-#     push:
-#         branches:
-#             - main
-#     pull_request:
-#         branches:
-#             - main
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
 
-# jobs:
-#     build:
-#         runs-on: ubuntu-latest
-#         steps:
-#             # Setup
-#             - uses: actions/checkout@v3
-#             - uses: pnpm/action-setup@v2
-#               with:
-#                   version: 8
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            # Setup
+            - uses: actions/checkout@v3
+            - uses: pnpm/action-setup@v2
+              with:
+                  version: 8
 
-#             # Install Dependencies
-#             - name: Install dependencies
-#               run: pnpm install
+            # Install Dependencies
+            - name: Install dependencies
+              run: pnpm install
 
-#             # Run Test
-#             - name: Build
-#               run: pnpm run build
+            # Run Test
+            - name: Build
+              run: pnpm run build
 
-#     # Publish to NPM
-#     publish-npm:
-#         needs: build
-#         runs-on: ubuntu-latest
-#         steps:
-#             # Setup Node
-#             - uses: actions/checkout@v3
-#             - uses: actions/setup-node@v3
-#               with:
-#                   node-version: 20
+    # Publish to NPM
+    publish-npm:
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+            # Setup Node
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 16
 
-#             # Setup PNPM
-#             - uses: pnpm/action-setup@v2
-#               with:
-#                   version: 8
+            # Setup PNPM
+            - uses: pnpm/action-setup@v2
+              with:
+                  version: 8
 
-#             # Publish
-#             - name: Publish to NPM
-#               run: pnpm publish --access public --tag dev --no-git-checks
-#               env:
-#                   NODE_AUTH_TOKEN: ${{secrets.NODETOKEN}}
-
+            # Publish
+            - name: Publish to NPM
+              run: pnpm publish --access public --tag dev --no-git-checks
+              env:
+                  NODE_AUTH_TOKEN: ${{secrets.NODETOKEN}}
 # # Publish to GPR
 # publish-gpr:
 #     needs: build
@@ -87,28 +86,28 @@ name: Node.js Package
 
 # name: Node.js Package
 
-on:
-    push:
-        branches:
-            - main
-    pull_request:
-        branches:
-            - main
+# on:
+#     push:
+#         branches:
+#             - main
+#     pull_request:
+#         branches:
+#             - main
 
-jobs:
-    publish-npm:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-            - uses: actions/setup-node@v3
-              with:
-                  node-version: 16
-                  registry-url: https://registry.npmjs.org/
+# jobs:
+#     publish-npm:
+#         runs-on: ubuntu-latest
+#         steps:
+#             - uses: actions/checkout@v3
+#             - uses: actions/setup-node@v3
+#               with:
+#                   node-version: 16
+#                   registry-url: https://registry.npmjs.org/
 
-            - uses: pnpm/action-setup@v2
-              with:
-                  version: 8
+#             - uses: pnpm/action-setup@v2
+#               with:
+#                   version: 8
 
-            - run: pnpm publish
-              env:
-                  NODE_AUTH_TOKEN: ${{secrets.NODETOKEN}}
+#             - run: pnpm publish
+#               env:
+#                   NODE_AUTH_TOKEN: ${{secrets.NODETOKEN}}
