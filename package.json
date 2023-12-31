@@ -1,6 +1,6 @@
 {
     "name": "expert-octo-computing-machine",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "description": "test Packagae",
     "main": "out/index.js",
     "author": "Me",
@@ -22,6 +22,9 @@
     "funding": {
         "type": "patreon",
         "url": "https://www.patreon.com/SoftwareXPlus"
+    },
+    "publishConfig": {
+        "@SoftwareXPlus:registry": "https://npm.pkg.github.com"
     },
     "devDependencies": {
         "@types/node": "^20.8.3",
