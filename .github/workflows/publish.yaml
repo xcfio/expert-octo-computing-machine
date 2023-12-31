@@ -60,7 +60,7 @@ jobs:
 
             - name: Deprecate Previous Dev Version
               run: |
-                  PACKAGE_NAME=$(node -e "console.log(require('./packages/commandkit/package.json').name);")
+                  PACKAGE_NAME=$(node -e "console.log(require('./package.json').name);")
                   ALL_VERSIONS=$(npm info $PACKAGE_NAME versions -json)
                   VERSION_TO_DEPRECATE=$(echo $ALL_VERSIONS | node -e "
                       const versions = JSON.parse(require('fs').readFileSync('/dev/stdin', 'utf-8'));
