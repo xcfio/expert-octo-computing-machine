@@ -22,7 +22,7 @@ jobs:
             # Run Test
             - name: Build
               run: pnpm run build
-    publish-npm:
+    publish-node-package-manager:
         needs: build
         runs-on: ubuntu-latest
         steps:
@@ -36,23 +36,6 @@ jobs:
               with:
                   version: 8
 
-            - run: pnpm publish
+            - run: pnpm publish --access public --tag dev --no-git-checks
               env:
                   NODE_AUTH_TOKEN: ${{secrets.NODETOKEN}}
-    # publish-github:
-    #     needs: build
-    #     runs-on: ubuntu-latest
-    #     steps:
-    #         - uses: actions/checkout@v4
-    #         - uses: actions/setup-node@v3
-    #           with:
-    #               node-version: 16
-    #               registry-url: https://npm.pkg.github.com/
-
-    #         - uses: pnpm/action-setup@v2
-    #           with:
-    #               version: 8
-
-    #         - run: pnpm publish
-    #           env:
-    #               NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}

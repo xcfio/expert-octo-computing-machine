@@ -23,9 +23,6 @@
         "type": "patreon",
         "url": "https://www.patreon.com/SoftwareXPlus"
     },
-    "publishConfig": {
-        "@SoftwareXPlus:registry": "https://npm.pkg.github.com"
-    },
     "devDependencies": {
         "@types/node": "^20.8.3",
         "typescript": "^5.2.2"
