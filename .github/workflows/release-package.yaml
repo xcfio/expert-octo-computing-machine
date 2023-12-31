@@ -1,62 +1,19 @@
-name: Github Package
+name: Node.js Package
 
 on:
-    push:
-        branches:
-            - main
-    pull_request:
-        branches:
-            - main
-
-# jobs:
-#     build:
-#         runs-on: ubuntu-latest
-#         steps:
-#             # Setup
-#             - uses: actions/checkout@v3
-#             - uses: pnpm/action-setup@v2
-#               with:
-#                   version: 8
-#             # Install Dependencies
-#             - name: Install dependencies
-#               run: pnpm install
-#             # Run Test
-#             - name: Build
-#               run: pnpm run build
-
-#     publish-github:
-#         needs: build
-#         runs-on: ubuntu-latest
-#         steps:
-#             - uses: actions/checkout@v4
-#             - uses: actions/setup-node@v3
-#               with:
-#                   node-version: 16
-#                   registry-url: https://npm.pkg.github.com/
-
-#             - uses: pnpm/action-setup@v2
-#               with:
-#                   version: 8
-
-#             - run: pnpm publish
-#               env:
-#                   NODE_AUTH_TOKEN: ${{secrets.NODETOKEN}}
+    release:
+        types: [created]
 
 jobs:
     build:
         runs-on: ubuntu-latest
         steps:
-            # Setup
-            - uses: actions/checkout@v3
-            - uses: pnpm/action-setup@v2
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v3
               with:
-                  version: 8
-            # Install Dependencies
-            - name: Install dependencies
-              run: pnpm install
-            # Run Test
-            - name: Build
-              run: pnpm run build
+                  node-version: 16
+            - run: npm install
+            - run: npm run build
 
     publish-gpr:
         needs: build
@@ -70,9 +27,6 @@ jobs:
               with:
                   node-version: 16
                   registry-url: https://npm.pkg.github.com/
-            - uses: pnpm/action-setup@v2
-              with:
-                  version: 8
             - run: npm publish
               env:
                   NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
