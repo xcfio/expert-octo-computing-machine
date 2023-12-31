@@ -3,10 +3,17 @@
 
 name: Node.js Package
 
+# on:
+#     release:
+#         types: [created]
+#     push:
+#         branches:
+#             - main
 on:
-    release:
-        types: [created]
     push:
+        branches:
+            - main
+    pull_request:
         branches:
             - main
 
@@ -38,7 +45,7 @@ jobs:
             - uses: actions/setup-node@v3
               with:
                   node-version: 20
-                  registry-url: https://npm.pkg.github.com/
+                  registry-url: https://npm.github.com/
 
             # Setup PNPM
             - uses: pnpm/action-setup@v2
@@ -51,28 +58,28 @@ jobs:
               env:
                   NODE_AUTH_TOKEN: ${{secrets.NODETOKEN}}
 
-    # Publish to GPR
-    publish-gpr:
-        needs: build
-        runs-on: ubuntu-latest
-        permissions:
-            contents: read
-            packages: write
-        steps:
-            # Setup Node
-            - uses: actions/checkout@v3
-            - uses: actions/setup-node@v3
-              with:
-                  node-version: 20
-                  registry-url: https://npm.pkg.github.com/
+    # # Publish to GPR
+    # publish-gpr:
+    #     needs: build
+    #     runs-on: ubuntu-latest
+    #     permissions:
+    #         contents: read
+    #         packages: write
+    #     steps:
+    #         # Setup Node
+    #         - uses: actions/checkout@v3
+    #         - uses: actions/setup-node@v3
+    #           with:
+    #               node-version: 20
+    #               registry-url: https://npm.pkg.github.com/
 
-            # Setup PNPM
-            - uses: pnpm/action-setup@v2
-              with:
-                  version: 8
+    #         # Setup PNPM
+    #         - uses: pnpm/action-setup@v2
+    #           with:
+    #               version: 8
 
-            # Publish
-            - name: Publish to GPR
-              run: pnpm publish --access public --tag dev --no-git-checks
-              env:
-                  NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+    #         # Publish
+    #         - name: Publish to GPR
+    #           run: pnpm publish --access public --tag dev --no-git-checks
+    #           env:
+    #               NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
