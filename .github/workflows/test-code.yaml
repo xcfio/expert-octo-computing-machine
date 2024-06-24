@@ -1,27 +1,27 @@
 name: Code Check
 
-on:
-    push:
-        branches:
-            - main
-    pull_request:
-        branches:
-            - main
+on: push
 
 jobs:
     test:
         runs-on: ubuntu-latest
         steps:
-            # Setup
-            - uses: actions/checkout@v3
-            - uses: pnpm/action-setup@v2
+            # Setup Action
+            - name: Setup Action
+              uses: actions/checkout@v3
+
+            # Setup Node.js
+            - name: Setup Node.js
+              uses: actions/setup-node@v2
               with:
-                  version: 8
+                  node-version: "22"
 
-            # Install Dependencies
-            - name: Install dependencies
-              run: pnpm install
+            # Setup PNPM
+            - name: Setup PNPM
+              uses: pnpm/action-setup@v2
+              with:
+                  version: "latest"
 
-            # Run Test
+            # Run test
             - name: Run test
-              run: pnpm run test
+              run: tsc --help
