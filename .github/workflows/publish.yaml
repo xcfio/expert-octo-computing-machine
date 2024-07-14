@@ -1,73 +1,43 @@
 # This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
 # For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
 
-name: Publish package on push or pull-request
+name: Publish package
 
 on:
-    push:
-        branches:
-            - main
-    pull_request:
-        branches:
-            - main
+    release:
+        types: created
 
 jobs:
-    build:
+    Publish:
         runs-on: ubuntu-latest
-        steps:
-            # Setup
-            - uses: actions/checkout@v3
-            - uses: pnpm/action-setup@v2
-              with:
-                  version: 8
 
-            # Install Dependencies
+        permissions:
+            contents: read
+            packages: write
+            id-token: write
+
+        steps:
+            - name: Setup Action
+              uses: actions/checkout@v3
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v2
+              with:
+                  node-version: "22"
+                  registry-url: https://npm.pkg.github.com/
+
+            - name: Setup PNPM
+              uses: pnpm/action-setup@v2
+              with:
+                  version: "latest"
+
             - name: Install dependencies
-              run: pnpm install
-            # Run Test
+              run: pnpm install --no-frozen-lockfile
 
             - name: Build
               run: pnpm run build
 
-    publish:
-        needs: build
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-            - uses: actions/setup-node@v3
-              with:
-                  node-version: 16
-                  registry-url: https://registry.npmjs.org/
-
-            - uses: pnpm/action-setup@v2
-              with:
-                  version: 8
-
-            - name: Update Version
-              run: |
-                  node -e "const pkg = require('./package.json'); \
-                  const newVersion = pkg.version + '-dev.' + new Date().toISOString().replace(/[:\-T]/g, '').substr(0,14); \
-                  pkg.version = newVersion; \
-                  require('fs').writeFileSync('./package.json', JSON.stringify(pkg, null, 2));"
-              env:
-                  DEBIAN_FRONTEND: noninteractive
-
             - name: Publish
-              run: pnpm publish --access public --tag dev --no-git-checks
+              run: pnpm publish --provenance --no-git-checks
               env:
-                  NODE_AUTH_TOKEN: ${{secrets.NODETOKEN}}
-
-            - name: Deprecate Previous Dev Version
-              run: |
-                  PACKAGE_NAME=$(node -e "console.log(require('./package.json').name);")
-                  ALL_VERSIONS=$(npm info $PACKAGE_NAME versions -json)
-                  VERSION_TO_DEPRECATE=$(echo $ALL_VERSIONS | node -e "
-                      const versions = JSON.parse(require('fs').readFileSync('/dev/stdin', 'utf-8'));
-                      const devVersions = versions.filter(v => v.includes('-dev.'));
-                      const versionToDeprecate = devVersions[devVersions.length - 2];
-                      console.log(versionToDeprecate);
-                  ")
-                  echo Deprecating version $VERSION_TO_DEPRECATE
-                  npm deprecate $PACKAGE_NAME@$VERSION_TO_DEPRECATE "Deprecated dev version."
-              env:
-                  NODE_AUTH_TOKEN: ${{secrets.NODETOKEN}}
+                  NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
