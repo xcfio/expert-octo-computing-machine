@@ -1,9 +1,9 @@
 {
     "name": "expert-octo-computing-machine",
-    "version": "0.0.9",
+    "version": "0.0.10",
     "description": "test Packagae",
     "main": "out/index.js",
-    "author": "Me",
+    "author": "I am the owner",
     "license": "MIT",
     "scripts": {
         "dev": "nodemon --exec tsx src/index.ts --ext .ts --watch src",
@@ -13,10 +13,10 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/softwarexplus/expert-octo-computing-machine.git"
+        "url": "https://github.com/xcfio/expert-octo-computing-machine"
     },
     "bugs": {
-        "url": "https://github.com/softwarexplus/expert-octo-computing-machine/issues",
+        "url": "https://github.com/xcfio/expert-octo-computing-machine/issues",
         "email": "SoftwareXPlus@gmail.com"
     },
     "funding": {
